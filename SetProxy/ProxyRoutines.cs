@@ -2,17 +2,17 @@
  * by Malcolm McCaffery http://chentiangemalc.wordpress.com
  * Twitter @chentiangemalc
  * free to use as you wish...just if you make it better, send me the fixes! :)
- * 
+ *
  * Based on information from:
- * 
+ *
  *  - WinInet.H in Windows SDK
  *  - MSDN InternetSetOption Documentation http://msdn.microsoft.com/en-us/library/windows/desktop/aa385114(v=vs.85).aspx
  *  - Frame of the native interop calls borrowed from Mudasir Mirza's post here http://stackoverflow.com/questions/9319906/set-proxy-username-and-password-using-wininet-in-c-sharp
  *
- *  Most common failure from InternetSetOption will be error code '87' which means "Invalid Parameter" 
- *  
+ *  Most common failure from InternetSetOption will be error code '87' which means "Invalid Parameter"
+ *
  * Other things to watch out for:
- * 
+ *
  * If you have per-machine proxy policy set, you must be admin to change proxy refer to http://msdn.microsoft.com/en-us/library/ms815135.aspx
  */
 
@@ -71,7 +71,7 @@ namespace SetProxy
             static readonly int Size = Marshal.SizeOf(typeof(InternetConnectionOption));
             public PerConnOption m_Option;
             public InternetConnectionOptionValue m_Value;
-            
+
             // Nested Types
             [StructLayout(LayoutKind.Explicit)]
             public struct InternetConnectionOptionValue : IDisposable
@@ -125,10 +125,10 @@ namespace SetProxy
         //
         private enum PerConnOption : int
         {
-            INTERNET_PER_CONN_FLAGS = 1,            // Sets or retrieves the connection type. The Value member will contain one or more of the values from PerConnFlags 
-            INTERNET_PER_CONN_PROXY_SERVER = 2,     // Sets or retrieves a string containing the proxy servers.  
-            INTERNET_PER_CONN_PROXY_BYPASS = 3,     // Sets or retrieves a string containing the URLs that do not use the proxy server.  
-            INTERNET_PER_CONN_AUTOCONFIG_URL = 4,   // Sets or retrieves a string containing the URL to the automatic configuration script.  
+            INTERNET_PER_CONN_FLAGS = 1,            // Sets or retrieves the connection type. The Value member will contain one or more of the values from PerConnFlags
+            INTERNET_PER_CONN_PROXY_SERVER = 2,     // Sets or retrieves a string containing the proxy servers.
+            INTERNET_PER_CONN_PROXY_BYPASS = 3,     // Sets or retrieves a string containing the URLs that do not use the proxy server.
+            INTERNET_PER_CONN_AUTOCONFIG_URL = 4,   // Sets or retrieves a string containing the URL to the automatic configuration script.
             INTERNET_PER_CONN_AUTODISCOVERY_FLAGS = 5 // Sets or AutoDiscovery Flags
         }
 
@@ -178,7 +178,7 @@ namespace SetProxy
         {
             return SetProxy(true, false, ProxyAddress, ProxyExceptions,"","");
         }
-        
+
         public static bool SetAutoConfigURL(string AutoConfigURL)
         {
             return SetProxy(false, false, "", "", AutoConfigURL,"");
@@ -237,7 +237,7 @@ namespace SetProxy
             if (!string.IsNullOrEmpty(ProxyExceptions))
             {
                 options[optionCurrent].m_Option = PerConnOption.INTERNET_PER_CONN_PROXY_BYPASS;
-                options[optionCurrent].m_Value.m_StringPtr = Marshal.StringToHGlobalUni(ProxyExceptions); 
+                options[optionCurrent].m_Value.m_StringPtr = Marshal.StringToHGlobalUni(ProxyExceptions);
                 optionCurrent++;
             }
 
@@ -315,7 +315,7 @@ namespace SetProxy
 
             // refresh IE settings - so we don't need to re-launch internet explorer!
             NativeMethods.InternetSetOption(IntPtr.Zero, InternetOption.INTERNET_OPTION_PROXY_SETTINGS_CHANGED, IntPtr.Zero, 0);
-            
+
             return (returnvalue < 0);
         }
     }
