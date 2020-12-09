@@ -295,9 +295,7 @@ namespace SetProxy
             Marshal.StructureToPtr(list, ipcoListPtr, false);
 
             // and finally, call the API method!
-            int returnvalue = NativeMethods.InternetSetOption(IntPtr.Zero,
-            InternetOption.INTERNET_OPTION_PER_CONNECTION_OPTION,
-            ipcoListPtr, list.dwSize) ? -1 : 0;
+            int returnvalue = NativeMethods.InternetSetOption(IntPtr.Zero, InternetOption.INTERNET_OPTION_PER_CONNECTION_OPTION, ipcoListPtr, list.dwSize) ? -1 : 0;
 
             if (returnvalue == 0)
             {  // get the error codes, they might be helpful

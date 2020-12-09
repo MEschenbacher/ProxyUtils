@@ -30,13 +30,16 @@ namespace SetProxy
 			if (args.Length == 0)
 			{
 				PrintHelp();
-				return;
+				Environment.Exit(1);
 			}
 			foreach (string s in args)
 			{
 				string[] optionValue = s.ToLower().Split(':');
 				string option = optionValue[0];
-				string value = optionValue[1];
+				string value;
+				if (optionValue.length() > 1) {
+					value = optionValue[1];
+				}
 
 				switch (option) {
 				case "/proxy":
@@ -50,6 +53,7 @@ namespace SetProxy
 							break;
 						default:
 							Console.WriteLine(string.Format("Unrecognized value {0}", value));
+							PrintHelp();
 							Environment.Exit(1);
 					}
 					break;
@@ -71,6 +75,7 @@ namespace SetProxy
 							break;
 						default:
 							Console.WriteLine(string.Format("Unrecognized value {0}", value));
+							PrintHelp();
 							Environment.Exit(1);
 					}
 					break;
@@ -84,6 +89,7 @@ namespace SetProxy
 					ByPassLocal = true;
 				default:
 					Console.WriteLine(string.Format("Unrecognized parameter '{0}' - value ignored", s));
+					PrintHelp();
 					Environment.Exit(1);
 				}
 			}
